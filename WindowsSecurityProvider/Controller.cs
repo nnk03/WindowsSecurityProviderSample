@@ -5,7 +5,7 @@ namespace Processing
 {
     public class Controller : INotifier
     {
-        public List<ISecurityProvider> _securityProviders = new List<ISecurityProvider> ();
+        public List<ISecurityProvider> _securityProviders = new();
         public Controller()
         {
             //string? selectedEnvironment = Console.ReadLine();
@@ -31,7 +31,10 @@ namespace Processing
                 provider.Scan();
             }
 
-            while(true);
+            while (true)
+            {
+
+            }
 
         }
         public void Notify(string e) {

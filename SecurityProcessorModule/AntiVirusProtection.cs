@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace SecurityProcessorModule
 {    public class AntiVirusProtection : ISecurityProvider
     {
-        private static string currentEvent = "AntiVirus";
+        private readonly string _currentEvent = "AntiVirus";
         public INotifier notifier;
-        FileSystemWatcher? watcher;
+        FileSystemWatcher? _watcher;
         public AntiVirusProtection(INotifier notifier)
         {
             this.notifier = notifier;
@@ -18,14 +18,16 @@ namespace SecurityProcessorModule
 
         }
         public void Scan() {
-            watcher = new FileSystemWatcher();
-            watcher.Path = @"C:\watchFilesProject";
-            watcher.Filter = "*.txt";
-            watcher.NotifyFilter = NotifyFilters.LastWrite;
+            _watcher = new()
+            {
+                Path = @"C:\watchFilesProject" ,
+                Filter = "*.txt" ,
+                NotifyFilter = NotifyFilters.LastWrite
+            };
 
-            watcher.Changed += OnChanged;
+            _watcher.Changed += OnChanged;
             // Start monitoring
-            watcher.EnableRaisingEvents = true;
+            _watcher.EnableRaisingEvents = true;
             Console.WriteLine("File is watched");
 
         }
@@ -35,7 +37,7 @@ namespace SecurityProcessorModule
         }
         public void OnSecurityEvent() 
         { 
-            notifier.Notify(currentEvent);
+            notifier.Notify(_currentEvent);
         }
     }
 }
